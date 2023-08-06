@@ -1,7 +1,38 @@
+#git remote -v
+#git remote set-url origin
+
+
+
 
 ## mkdir -p models/ldm/stable-diffusion-v1/
 ##ln -s <path/to/model.ckpt> models/ldm/stable-diffusion-v1/model.ckpt 
 ## python txt2img.py --prompt "a photograph of an astronaut riding a horse" --plms
+
+"""
+env_hface) dhankar@dhankar-1:~/.../ldm$ python test_1.py 
+Downloading (…)rocessor_config.json: 100%|██████████████████████████████████████████████████████| 342/342 [00:00<00:00, 872kB/s]
+/home/dhankar/anaconda3/envs/env_hface/lib/python3.11/site-packages/transformers/models/clip/feature_extraction_clip.py:28: FutureWarning: The class CLIPFeatureExtractor is deprecated and will be removed in version 5 of Transformers. Please use CLIPImageProcessor instead.
+  warnings.warn(
+Downloading (…)lve/main/config.json: 100%|█████████████████████████████████████████████████| 4.55k/4.55k [00:00<00:00, 9.92MB/s]
+`text_config_dict` is provided which will be used to initialize `CLIPTextConfig`. The value `text_config["id2label"]` will be overriden.
+`text_config_dict` is provided which will be used to initialize `CLIPTextConfig`. The value `text_config["bos_token_id"]` will be overriden.
+`text_config_dict` is provided which will be used to initialize `CLIPTextConfig`. The value `text_config["eos_token_id"]` will be overriden.
+Downloading pytorch_model.bin: 100%|███████████████████████████████████████████████████████| 1.22G/1.22G [00:41<00:00, 29.5MB/s]
+Global seed set to 42
+Traceback (most recent call last):
+  File "/home/dhankar/temp/08_23/huggin_face/stabl_diff/stable-diffusion/ldm/test_1.py", line 357, in <module>
+    main()
+  File "/home/dhankar/temp/08_23/huggin_face/stabl_diff/stable-diffusion/ldm/test_1.py", line 250, in main
+    config = OmegaConf.load(f"{opt.config}")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dhankar/anaconda3/envs/env_hface/lib/python3.11/site-packages/omegaconf/omegaconf.py", line 189, in load
+    with io.open(os.path.abspath(file_), "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/dhankar/temp/08_23/huggin_face/stabl_diff/stable-diffusion/ldm/configs/stable-diffusion/v1-inference.yaml'
+(env_hface) dhankar@dhankar-1:~/.../ldm$ 
+"""
+
+
 
 import argparse, os, sys, glob
 import cv2
@@ -19,10 +50,10 @@ from pytorch_lightning import seed_everything
 from torch import autocast
 from contextlib import contextmanager, nullcontext
 
-from ldm.util import instantiate_from_config
-from ldm.models.diffusion.ddim import DDIMSampler
-from ldm.models.diffusion.plms import PLMSSampler
-from ldm.models.diffusion.dpm_solver import DPMSolverSampler
+from util import instantiate_from_config
+from models.diffusion.ddim import DDIMSampler
+from models.diffusion.plms import PLMSSampler
+from models.diffusion.dpm_solver import DPMSolverSampler
 
 from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker
 from transformers import AutoFeatureExtractor
